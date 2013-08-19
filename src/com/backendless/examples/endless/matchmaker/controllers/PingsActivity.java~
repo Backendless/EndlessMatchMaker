@@ -147,7 +147,6 @@ public class PingsActivity extends Activity
         Map<String, String> currentData = currentUserGeoPoint.getMetadata();
         Map<String, String> matchData = matchPoint.getGeoPoint().getMetadata();
         double matchCount = matchPoint.getMatches();
-        
         if( matchCount <= 1 )
           matchCount = matchCount * 100;
 
