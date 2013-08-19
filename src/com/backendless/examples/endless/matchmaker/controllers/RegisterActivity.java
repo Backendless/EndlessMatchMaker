@@ -201,24 +201,16 @@ public class RegisterActivity extends Activity
     SharedPreferences.Editor editor = settings.edit();
 
     if( name != null )
-    {
       editor.putString( Defaults.NAME_PROPERTY, name );
-    }
 
     if( email != null )
-    {
       editor.putString( BackendlessUser.EMAIL_KEY, email );
-    }
 
     if( birthdate != null )
-    {
       editor.putString( Defaults.BIRTH_DATE_PROPERTY, birthdate );
-    }
 
     if( gender != 0 )
-    {
       editor.putInt( Defaults.GENDER_PROPERTY, gender );
-    }
 
     editor.commit();
   }
@@ -236,23 +228,15 @@ public class RegisterActivity extends Activity
     int gender = settings.getInt( Defaults.GENDER_PROPERTY, 0 );
 
     if( name != null )
-    {
       nameField.setText( name );
-    }
 
     if( email != null )
-    {
       emailField.setText( email );
-    }
 
     if( birthdate != null )
-    {
       birthdateField.setText( birthdate );
-    }
 
     if( gender != 0 )
-    {
       genderRadio.check( gender );
-    }
   }
 }

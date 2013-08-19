@@ -44,6 +44,10 @@ public class PingsActivity extends Activity
   private LinearLayout pingedContainer, werePingedContainer, callbackPingsContainer;
   private ProgressDialog progressDialog;
   private GeoPoint currentUserGeoPoint;
+  private String food = "Food";
+  private String music = "Music";
+  private String hobbies = "Hobbies";
+  private String travel = "Travel";
 
   @Override
   public void onCreate( Bundle savedInstanceState )
@@ -53,51 +57,51 @@ public class PingsActivity extends Activity
 
     progressDialog = UIFactory.getDefaultProgressDialog( this );
 
-    pingedContainer = (LinearLayout) findViewById( R.id.pingsContainer );
-    werePingedContainer = (LinearLayout) findViewById( R.id.pingsContainer2 );
-    callbackPingsContainer = (LinearLayout) findViewById( R.id.pingsContainer3 );
+    pingedContainer = (LinearLayout) findViewById( R.id.pingedContainer );
+    werePingedContainer = (LinearLayout) findViewById( R.id.werePingedContainer );
+    callbackPingsContainer = (LinearLayout) findViewById( R.id.callbackPingsContainer );
 
     currentUserGeoPoint = (GeoPoint) getIntent().getSerializableExtra( Defaults.CURRENT_USER_GEO_POINT_BUNDLE_TAG );
 
     Map<String, String> metaDataForSearch = new HashMap<String, String>();
-    metaDataForSearch.put( "Asian", "Food" );
-    metaDataForSearch.put( "Caribean", "Food" );
-    metaDataForSearch.put( "Bar food", "Food" );
-    metaDataForSearch.put( "French", "Food" );
-    metaDataForSearch.put( "Mediterranean", "Food" );
-    metaDataForSearch.put( "Greek", "Food" );
-    metaDataForSearch.put( "Spanish", "Food" );
-    metaDataForSearch.put( "Mexican", "Food" );
-    metaDataForSearch.put( "Thai", "Food" );
+    metaDataForSearch.put( "Asian", food );
+    metaDataForSearch.put( "Caribean", food );
+    metaDataForSearch.put( "Bar food", food );
+    metaDataForSearch.put( "French", food );
+    metaDataForSearch.put( "Mediterranean", food );
+    metaDataForSearch.put( "Greek", food );
+    metaDataForSearch.put( "Spanish", food );
+    metaDataForSearch.put( "Mexican", food );
+    metaDataForSearch.put( "Thai", food );
     //Music
-    metaDataForSearch.put( "Classical", "Music" );
-    metaDataForSearch.put( "Jazz", "Music" );
-    metaDataForSearch.put( "Hip-hop", "Music" );
-    metaDataForSearch.put( "Reggae", "Music" );
-    metaDataForSearch.put( "Blues", "Music" );
-    metaDataForSearch.put( "Trance", "Music" );
-    metaDataForSearch.put( "House", "Music" );
-    metaDataForSearch.put( "Rock", "Music" );
-    metaDataForSearch.put( "Folk", "Music" );
+    metaDataForSearch.put( "Classical", music );
+    metaDataForSearch.put( "Jazz", music );
+    metaDataForSearch.put( "Hip-hop", music );
+    metaDataForSearch.put( "Reggae", music );
+    metaDataForSearch.put( "Blues", music );
+    metaDataForSearch.put( "Trance", music );
+    metaDataForSearch.put( "House", music );
+    metaDataForSearch.put( "Rock", music );
+    metaDataForSearch.put( "Folk", music );
     //  Hobbies
-    metaDataForSearch.put( "Fishing", "Hobbies" );
-    metaDataForSearch.put( "Diving", "Hobbies" );
-    metaDataForSearch.put( "Rock climbing", "Hobbies" );
-    metaDataForSearch.put( "Hiking", "Hobbies" );
-    metaDataForSearch.put( "Reading", "Hobbies" );
-    metaDataForSearch.put( "Dancing", "Hobbies" );
-    metaDataForSearch.put( "Cooking", "Hobbies" );
-    metaDataForSearch.put( "Surfing", "Hobbies" );
-    metaDataForSearch.put( "Photography", "Hobbies" );
+    metaDataForSearch.put( "Fishing", hobbies );
+    metaDataForSearch.put( "Diving", hobbies );
+    metaDataForSearch.put( "Rock climbing", hobbies );
+    metaDataForSearch.put( "Hiking", hobbies );
+    metaDataForSearch.put( "Reading", hobbies );
+    metaDataForSearch.put( "Dancing", hobbies );
+    metaDataForSearch.put( "Cooking", hobbies );
+    metaDataForSearch.put( "Surfing", hobbies );
+    metaDataForSearch.put( "Photography", hobbies );
     //Travel
-    metaDataForSearch.put( "Cruise", "Travel" );
-    metaDataForSearch.put( "B&B", "Travel" );
-    metaDataForSearch.put( "Europe", "Travel" );
-    metaDataForSearch.put( "Asia", "Travel" );
-    metaDataForSearch.put( "Caribean", "Travel" );
-    metaDataForSearch.put( "Mountains", "Travel" );
-    metaDataForSearch.put( "Whale watching", "Travel" );
-    metaDataForSearch.put( "Active travel", "Travel" );
+    metaDataForSearch.put( "Cruise", travel );
+    metaDataForSearch.put( "B&B", travel );
+    metaDataForSearch.put( "Europe", travel );
+    metaDataForSearch.put( "Asia", travel );
+    metaDataForSearch.put( "Caribean", travel );
+    metaDataForSearch.put( "Mountains", travel );
+    metaDataForSearch.put( "Whale watching", travel );
+    metaDataForSearch.put( "Active travel", travel );
 
     int maxPoints = 10;
     BackendlessGeoQuery backendlessGeoQuery = new BackendlessGeoQuery( metaDataForSearch, maxPoints );
@@ -134,27 +138,34 @@ public class PingsActivity extends Activity
     @Override
     public void handleResponse( BackendlessCollection<SearchMatchesResult> response )
     {
-      for( SearchMatchesResult targetUserGeoPoint : response.getCurrentPage() )
+      for( SearchMatchesResult matchPoint : response.getCurrentPage() )
       {
-        String targetUserEmail = targetUserGeoPoint.getGeoPoint().getMetadata( BackendlessUser.EMAIL_KEY );
-        String targetUserName = targetUserGeoPoint.getGeoPoint().getMetadata( Defaults.NAME_PROPERTY );
-        double matchCount = targetUserGeoPoint.getMatches();
+        String matchUserEmail = matchPoint.getGeoPoint().getMetadata( BackendlessUser.EMAIL_KEY );
+        String matchUserName = matchPoint.getGeoPoint().getMetadata( Defaults.NAME_PROPERTY );
+        String gender = matchPoint.getGeoPoint().getMetadata( Defaults.GENDER_PROPERTY );
+        String currentUserEmail = currentUserGeoPoint.getMetadata( BackendlessUser.EMAIL_KEY );
+        Map<String, String> currentData = currentUserGeoPoint.getMetadata();
+        Map<String, String> matchData = matchPoint.getGeoPoint().getMetadata();
+        double matchCount = matchPoint.getMatches();
         if( matchCount <= 1 )
           matchCount = matchCount * 100;
+
         //Callback pings
-        if( currentUserGeoPoint.getMetadata().containsKey( targetUserEmail ) && targetUserGeoPoint.getGeoPoint().getMetadata().containsKey( currentUserGeoPoint.getMetadata( BackendlessUser.EMAIL_KEY ) ) )
+        if( currentData.containsKey( matchUserEmail ) && matchData.containsKey( currentUserEmail ) )
         {
-          callbackPingsContainer.addView( UIFactory.getPingsListElement( PingsActivity.this, targetUserName + "  -  " + targetUserEmail, round( matchCount, 2 ), getPingDetailListener( targetUserGeoPoint.getGeoPoint() ), targetUserGeoPoint.getGeoPoint().getMetadata( Defaults.GENDER_PROPERTY ) ) );
+          callbackPingsContainer.addView( UIFactory.getPingsListElement( PingsActivity.this, matchUserName + "  -  " + matchUserEmail, round( matchCount, 2 ), getPingDetailListener( matchPoint.getGeoPoint() ), gender ) );
         }
+
         //You pinged
-        if( targetUserGeoPoint.getGeoPoint().getMetadata().containsKey( currentUserGeoPoint.getMetadata( BackendlessUser.EMAIL_KEY ) ) && !currentUserGeoPoint.getMetadata().containsKey( targetUserEmail ) )
+        if( matchData.containsKey( currentUserEmail ) && !currentData.containsKey( matchUserEmail ) )
         {
-          pingedContainer.addView( UIFactory.getPingsListElement( PingsActivity.this, targetUserName, round( matchCount, 2 ), getPingDetailListener( targetUserGeoPoint.getGeoPoint() ), targetUserGeoPoint.getGeoPoint().getMetadata( Defaults.GENDER_PROPERTY ) ) );
+          pingedContainer.addView( UIFactory.getPingsListElement( PingsActivity.this, matchUserName, round( matchCount, 2 ), getPingDetailListener( matchPoint.getGeoPoint() ), gender ) );
         }
+
         //You were pinged
-        if( currentUserGeoPoint.getMetadata().containsKey( targetUserEmail ) && !targetUserGeoPoint.getGeoPoint().getMetadata().containsKey( currentUserGeoPoint.getMetadata( BackendlessUser.EMAIL_KEY ) ) )
+        if( currentData.containsKey( matchUserEmail ) && !matchData.containsKey( currentUserEmail ) )
         {
-          werePingedContainer.addView( UIFactory.getPingsListElement( PingsActivity.this, targetUserName, round( matchCount, 2 ), getPingDetailListener( targetUserGeoPoint.getGeoPoint() ), targetUserGeoPoint.getGeoPoint().getMetadata( Defaults.GENDER_PROPERTY ) ) );
+          werePingedContainer.addView( UIFactory.getPingsListElement( PingsActivity.this, matchUserName, round( matchCount, 2 ), getPingDetailListener( matchPoint.getGeoPoint() ), gender ) );
         }
       }
       progressDialog.cancel();

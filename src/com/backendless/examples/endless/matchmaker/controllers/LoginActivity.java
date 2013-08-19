@@ -78,9 +78,7 @@ public class LoginActivity extends Activity
     }
 
     if( userEmail != null )
-    {
       emailField.setText( userEmail );
-    }
 
     if( userEmail != null && userPassword != null )
     {
@@ -95,6 +93,7 @@ public class LoginActivity extends Activity
       findViewById( R.id.registerButton ).setOnClickListener( registerListener );
       progressDialog.cancel();
     }
+
     Button loginFacebookButton = (Button) findViewById( R.id.loginFacebookButton );
     loginFacebookButton.setVisibility( View.INVISIBLE );
     TextView loginFacebookText = (TextView) findViewById( R.id.loginWith );
@@ -131,9 +130,7 @@ public class LoginActivity extends Activity
     public void handleResponse( BackendlessUser backendlessUser )
     {
       if( progressDialog != null )
-      {
         progressDialog.cancel();
-      }
 
       Lifecycle.runProfileActivity( LoginActivity.this );
 
@@ -160,9 +157,7 @@ public class LoginActivity extends Activity
     {
       //Displaying fault information
       if( progressDialog != null )
-      {
         progressDialog.cancel();
-      }
 
       Toast.makeText( LoginActivity.this, backendlessFault.getMessage(), Toast.LENGTH_SHORT ).show();
     }
@@ -177,14 +172,11 @@ public class LoginActivity extends Activity
     String email = emailField.getText().toString();
 
     if( email == null )
-    {
       return;
-    }
 
     SharedPreferences settings = getSharedPreferences( PREF_TAG, 0 );
     SharedPreferences.Editor editor = settings.edit();
     editor.putString( EMAIL_PREF, email );
-
     editor.commit();
   }
 

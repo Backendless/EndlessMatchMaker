@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 public class Defaults
 {
   public static final String APPLICATION_ID = "Your APP_ID";
-  public static final String APPLICATION_SECRET_KEY = "Your SECRET_KEY";
+  public static final String APPLICATION_SECRET_KEY = "Your_SECRET_KEY";
   public static final String APPLICATION_VERSION = "v1";
 
   public static final String NAME_PROPERTY = "name";
@@ -39,7 +39,7 @@ public class Defaults
   public static final String TRIGER = "triger";
 
   public static final String MESSAGING_CHANNEL = "default";
-  public static final String GCM_SENDER_ID = "Your GSM_SENDER";
+  public static final String GCM_SENDER_ID = "Your_GSM_SENDER";
   public static final String PUBLISHER_HEADER = "publisher";
   public static final String PUBLISHER_NAME_HEADER = "publisher_name";
   public static final String SUBSCRIBER_HEADER = "subscriber";

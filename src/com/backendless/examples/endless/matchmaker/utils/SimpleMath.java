@@ -33,13 +33,10 @@ public class SimpleMath
     int age = today.get( Calendar.YEAR ) - date.get( Calendar.YEAR );
 
     if( today.get( Calendar.MONTH ) < date.get( Calendar.MONTH ) )
-    {
       age--;
-    }
+
     else if( today.get( Calendar.MONTH ) == date.get( Calendar.MONTH ) && today.get( Calendar.DAY_OF_MONTH ) < date.get( Calendar.DAY_OF_MONTH ) )
-    {
       age--;
-    }
 
     return age;
   }

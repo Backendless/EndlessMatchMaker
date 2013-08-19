@@ -41,9 +41,7 @@ public class ResponseAsyncCallback<E> implements AsyncCallback<E>
   public final void handleFault( BackendlessFault fault )
   {
     if( fault.getCode().equals( String.valueOf( ExceptionMessage.NOT_INITIALIZED ) ) )
-    {
       Lifecycle.runLoginActivity( context );
-    }
 
     Toast.makeText( context, fault.getMessage(), Toast.LENGTH_SHORT ).show();
     Log.logLine( fault );

@@ -67,9 +67,7 @@ public class Lifecycle
   public static void runEditPreferencesActivity( Context context, PreferenceTheme preferenceTheme )
   {
     if( preferenceTheme == null )
-    {
       throw new RuntimeException( "Preference type should not be null" );
-    }
 
     //Starting login activity
     Intent intent = new Intent( context, EditPreferencesActivity.class );
@@ -101,7 +99,7 @@ public class Lifecycle
     Intent intent = new Intent( context, MatchViewActivity.class );
     intent.putExtra( Defaults.CURRENT_USER_GEO_POINT_BUNDLE_TAG, currentUserGeoPoint );
     intent.putExtra( Defaults.TARGET_USER_GEO_POINT_BUNDLE_TAG, targetUserGeoPoint );
-    intent.putExtra( Defaults.TRIGER, "1" );
+    intent.putExtra( Defaults.TRIGER, triger );
     context.startActivity( intent );
   }
 

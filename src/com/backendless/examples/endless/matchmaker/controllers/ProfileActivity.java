@@ -148,13 +148,10 @@ public class ProfileActivity extends Activity
           List<UserPreferences> userPreferenceses = response.getCurrentPage();
 
           for( UserPreferences userPreferencese : userPreferenceses )
-          {
             userPreferencesMap.put( userPreferencese.getPreference(), userPreferencese.getTheme() );
-          }
+
           if( !userPreferencesMap.containsValue( "Food" ) || !userPreferencesMap.containsValue( "Music" ) || !userPreferencesMap.containsValue( "Hobbies" ) || !userPreferencesMap.containsValue( "Travel" ) )
-          {
             Toast.makeText( ProfileActivity.this, "Set your preferences before search", Toast.LENGTH_LONG ).show();
-          }
           else
             Lifecycle.runFindMatchesActivity( ProfileActivity.this );
         }

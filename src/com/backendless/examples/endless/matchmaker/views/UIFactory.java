@@ -61,16 +61,10 @@ public class UIFactory
     layoutInflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
     LinearLayout result = (LinearLayout) layoutInflater.inflate( R.layout.inflate_ping, null );
     ImageView avatar = (ImageView) result.findViewById( R.id.avatarImage );
-    if (gender.equals( "male" ))
-    {
-      avatar.setImageResource( R.drawable.avatar_default_male );
-    }
-    else
-      avatar.setImageResource( R.drawable.avatar_default_female );
-
+    avatar.setImageResource( gender.equals( "male" ) ? R.drawable.avatar_default_male : R.drawable.avatar_default_female );
     ((TextView) result.findViewById( R.id.nameField )).setText( userName );
     ((TextView) result.findViewById( R.id.totalMatchValue )).setText( String.valueOf( totalMatch ) );
-    ((ProgressBar) result.findViewById( R.id.totalProgressBar )).setProgress((int) totalMatch );
+    ((ProgressBar) result.findViewById( R.id.totalProgressBar )).setProgress( (int) totalMatch );
     result.setOnClickListener( clickListener );
 
     return result;

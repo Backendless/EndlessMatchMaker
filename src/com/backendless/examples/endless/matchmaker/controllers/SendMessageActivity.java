@@ -103,7 +103,6 @@ public class SendMessageActivity extends Activity
       if( messageText.getText() == null || messageText.getText().toString().equals( "" ) )
       {
         Toast.makeText( SendMessageActivity.this, "Nothing to send...", Toast.LENGTH_SHORT ).show();
-
         return;
       }
 

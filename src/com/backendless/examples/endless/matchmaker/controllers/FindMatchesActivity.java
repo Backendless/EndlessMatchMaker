@@ -73,15 +73,15 @@ public class FindMatchesActivity extends Activity
     criteria.setSpeedRequired( false );
     criteria.setCostAllowed( true );
     boolean enabledGPS = locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER );
+
     if( !enabledGPS )
-    {
       Toast.makeText( FindMatchesActivity.this, "No GPS signal", Toast.LENGTH_LONG ).show();
-    }
+
     boolean networkIsEnabled = locationManager.isProviderEnabled( LocationManager.NETWORK_PROVIDER );
+
     if( !networkIsEnabled )
-    {
       Toast.makeText( FindMatchesActivity.this, "No Network signal", Toast.LENGTH_LONG ).show();
-    }
+
     String provider = locationManager.getBestProvider( criteria, true );
     LocationListener myLocationListener = new LocationListener()
     {
@@ -89,9 +89,7 @@ public class FindMatchesActivity extends Activity
       public void onLocationChanged( Location location )
       {
         if( location == null )
-        {
           Toast.makeText( FindMatchesActivity.this, "Location unknown", Toast.LENGTH_LONG ).show();
-        }
       }
 
       @Override
@@ -114,6 +112,7 @@ public class FindMatchesActivity extends Activity
     };
     Location location = locationManager.getLastKnownLocation( provider );
     locationManager.requestSingleUpdate( criteria, myLocationListener, null );
+
     if( provider == null )
     {
       UIFactory.getLocationSettingsDialog( this ).show();
@@ -135,10 +134,9 @@ public class FindMatchesActivity extends Activity
         public void handleResponse( BackendlessCollection<GeoPoint> geoPointBackendlessCollection )
         {
           List<GeoPoint> geoPoints = geoPointBackendlessCollection.getCurrentPage();
+
           if( !geoPoints.isEmpty() )
-          {
             textFoundGlobal.setText( String.valueOf( geoPoints.size() - 1 ) );
-          }
         }
 
         @Override
@@ -172,10 +170,7 @@ public class FindMatchesActivity extends Activity
         title.setText( marker.getTitle() );
         TextView sniped = (TextView) view.findViewById( R.id.textSnipedPoint );
         sniped.setText( marker.getSnippet() );
-        if( sniped.getText().equals( "male" ) )
-          imageView.setImageResource( R.drawable.avatar_default_male );
-        else
-          imageView.setImageResource( R.drawable.avatar_default_female );
+        imageView.setImageResource( sniped.getText().equals( "male" ) ? R.drawable.avatar_default_male : R.drawable.avatar_default_female );
 
         return view;
       }
@@ -190,10 +185,9 @@ public class FindMatchesActivity extends Activity
           GeoPoint pointData = adapter.pointsList.get( i );
           Map<String, String> newMetaData = pointData.getMetadata();
           String pointName = newMetaData.get( Defaults.NAME_PROPERTY );
+
           if( pointName.equals( marker.getTitle() ) )
-          {
             Lifecycle.runMatchViewActivity( FindMatchesActivity.this, myLocation, pointData );
-          }
         }
       }
     } );
@@ -221,9 +215,7 @@ public class FindMatchesActivity extends Activity
   private void findMatches()
   {
     if( progressBar.getVisibility() == View.VISIBLE )
-    {
       return;
-    }
 
     progressBar.setVisibility( View.VISIBLE );
     BackendlessGeoQuery backendlessGeoQuery = new BackendlessGeoQuery();
@@ -241,8 +233,10 @@ public class FindMatchesActivity extends Activity
 
       if( !geoPoints.isEmpty() )
       {
+
         for( GeoPoint geoPoint : geoPoints )
         {
+
           if( !geoPoint.getMetadata().get( BackendlessUser.EMAIL_KEY ).equals( Backendless.UserService.CurrentUser().getEmail() ) )
           {
             adapter.clear();
@@ -254,12 +248,7 @@ public class FindMatchesActivity extends Activity
             String pointName = newMetaData.get( Defaults.NAME_PROPERTY );
             String pointDescription = newMetaData.get( Defaults.GENDER_PROPERTY );
             LatLng newPosition = new LatLng( newLatitude, newLongitude );
-            Float icon;
-            if( pointDescription.equals( "male" ) )
-              icon = BitmapDescriptorFactory.HUE_BLUE;
-            else
-              icon = BitmapDescriptorFactory.HUE_RED;
-            googleMap.addMarker( new MarkerOptions().position( newPosition ).title( pointName ).snippet( pointDescription ).icon( BitmapDescriptorFactory.defaultMarker( icon ) ) );
+            googleMap.addMarker( new MarkerOptions().position( newPosition ).title( pointName ).snippet( pointDescription ).icon( BitmapDescriptorFactory.defaultMarker( pointDescription.equals( "male" ) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED ) ) );
           }
         }
         matchesFound.setText( String.valueOf( geoPoints.size() - 1 ) );
@@ -274,8 +263,8 @@ public class FindMatchesActivity extends Activity
     public void handleResponse( BackendlessCollection<GeoPoint> response )
     {
       List<GeoPoint> points = response.getCurrentPage();
-
       String hereMessage = "You are here";
+
       if( !points.isEmpty() )
       {
         myLocation = points.get( 0 );
@@ -295,14 +284,8 @@ public class FindMatchesActivity extends Activity
             myLocation.putMetadata( entry.getKey(), entry.getValue() );
           }
         }
-
-        Float icon;
-        if( myLocation.getMetadata( Defaults.GENDER_PROPERTY ).equals( "male" ) )
-          icon = BitmapDescriptorFactory.HUE_BLUE;
-        else
-          icon = BitmapDescriptorFactory.HUE_RED;
-
-        googleMap.addMarker( new MarkerOptions().position( myPosition ).title( hereMessage ).snippet( myLocation.getMetadata( Defaults.GENDER_PROPERTY ) ).icon( BitmapDescriptorFactory.defaultMarker( icon ) ) );
+        String gender = myLocation.getMetadata( Defaults.GENDER_PROPERTY );
+        googleMap.addMarker( new MarkerOptions().position( myPosition ).title( hereMessage ).snippet( gender ).icon( BitmapDescriptorFactory.defaultMarker( gender.equals( "male" ) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED ) ) );
         googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( myPosition, 11 ) );
         googleMap.animateCamera( CameraUpdateFactory.zoomTo( 14 ), 2000, null );
       }
@@ -312,12 +295,8 @@ public class FindMatchesActivity extends Activity
         myLocation.putMetadata( Defaults.NAME_PROPERTY, (String) Backendless.UserService.CurrentUser().getProperty( Defaults.NAME_PROPERTY ) );
         myLocation.putMetadata( Defaults.BIRTH_DATE_PROPERTY, Defaults.DEFAULT_DATE_FORMATTER.format( Backendless.UserService.CurrentUser().getProperty( Defaults.BIRTH_DATE_PROPERTY ) ) );
         myLocation.putMetadata( Defaults.GENDER_PROPERTY, String.valueOf( Backendless.UserService.CurrentUser().getProperty( Defaults.GENDER_PROPERTY ) ) );
-        Float icon;
-        if( myLocation.getMetadata( Defaults.GENDER_PROPERTY ).equals( "male" ) )
-          icon = BitmapDescriptorFactory.HUE_BLUE;
-        else
-          icon = BitmapDescriptorFactory.HUE_RED;
-        googleMap.addMarker( new MarkerOptions().position( myPosition ).title( hereMessage ).snippet( myLocation.getMetadata( Defaults.GENDER_PROPERTY ) ).icon( BitmapDescriptorFactory.defaultMarker( icon ) ) );
+        String gender = myLocation.getMetadata( Defaults.GENDER_PROPERTY );
+        googleMap.addMarker( new MarkerOptions().position( myPosition ).title( hereMessage ).snippet( gender ).icon( BitmapDescriptorFactory.defaultMarker( gender.equals( "male" ) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED ) ) );
         googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom( myPosition, 11 ) );
         googleMap.animateCamera( CameraUpdateFactory.zoomTo( 14 ), 2000, null );
       }
@@ -326,9 +305,7 @@ public class FindMatchesActivity extends Activity
       String deviceId = sharedPreferences.getString( Defaults.DEVICE_REGISTRATION_ID_PROPERTY, null );
 
       if( deviceId != null )
-      {
         myLocation.putMetadata( Defaults.DEVICE_REGISTRATION_ID_PROPERTY, deviceId );
-      }
 
       BackendlessDataQuery backendlessDataQuery = new BackendlessDataQuery( "email = '" + Backendless.UserService.CurrentUser().getEmail() + "'" );
       backendlessDataQuery.setQueryOptions( new QueryOptions( 50, 0 ) );
@@ -340,9 +317,7 @@ public class FindMatchesActivity extends Activity
           List<UserPreferences> userPreferenceses = response.getCurrentPage();
 
           for( UserPreferences userPreferencese : userPreferenceses )
-          {
             userPreferencesMap.put( userPreferencese.getPreference(), userPreferencese.getTheme() );
-          }
 
           myLocation.putAllMetadata( userPreferencesMap );
           Backendless.Geo.savePoint( myLocation, new AsyncCallback<GeoPoint>()

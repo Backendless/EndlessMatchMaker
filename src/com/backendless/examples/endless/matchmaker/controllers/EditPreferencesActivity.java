@@ -141,6 +141,7 @@ public class EditPreferencesActivity extends Activity
     Lifecycle.runProfileActivity( EditPreferencesActivity.this );
     finish();
   }
+
   private View.OnClickListener getCheckboxListener( final CheckBox checkBox )
   {
     return new View.OnClickListener()

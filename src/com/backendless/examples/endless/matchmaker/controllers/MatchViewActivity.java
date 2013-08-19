@@ -64,6 +64,10 @@ public class MatchViewActivity extends Activity
   private GeoPoint currentUserGeoPoint;
   private double foodMatchCount, musicMatchCount, travelMatchCount, hobbiesMatchCount, summMatch;
   private boolean food, music, hobbies, travel;
+  private String foodName = "Food";
+  private String musicName = "Music";
+  private String hobbiesName = "Hobbies";
+  private String travelName = "Travel";
 
   @Override
   public void onCreate( Bundle savedInstanceState )
@@ -141,15 +145,15 @@ public class MatchViewActivity extends Activity
 
     //Food
     Map<String, String> metaDataFood = new HashMap<String, String>();
-    metaDataFood.put( "Asian", "Food" );
-    metaDataFood.put( "Caribean", "Food" );
-    metaDataFood.put( "Bar food", "Food" );
-    metaDataFood.put( "French", "Food" );
-    metaDataFood.put( "Mediterranean", "Food" );
-    metaDataFood.put( "Greek", "Food" );
-    metaDataFood.put( "Spanish", "Food" );
-    metaDataFood.put( "Mexican", "Food" );
-    metaDataFood.put( "Thai", "Food" );
+    metaDataFood.put( "Asian", foodName );
+    metaDataFood.put( "Caribean", foodName );
+    metaDataFood.put( "Bar food", foodName );
+    metaDataFood.put( "French", foodName );
+    metaDataFood.put( "Mediterranean", foodName );
+    metaDataFood.put( "Greek", foodName );
+    metaDataFood.put( "Spanish", foodName );
+    metaDataFood.put( "Mexican", foodName );
+    metaDataFood.put( "Thai", foodName );
     int maxPoints = 10;
     BackendlessGeoQuery backendlessGeoQuery = new BackendlessGeoQuery( metaDataFood, maxPoints );
     backendlessGeoQuery.setPageSize( 50 );
@@ -158,15 +162,15 @@ public class MatchViewActivity extends Activity
     Backendless.Geo.relativeFind( backendlessGeoQuery, gotFoodCallback );
     // Music
     Map<String, String> metaDataMusic = new HashMap<String, String>();
-    metaDataMusic.put( "Classical", "Music" );
-    metaDataMusic.put( "Jazz", "Music" );
-    metaDataMusic.put( "Hip-hop", "Music" );
-    metaDataMusic.put( "Reggae", "Music" );
-    metaDataMusic.put( "Blues", "Music" );
-    metaDataMusic.put( "Trance", "Music" );
-    metaDataMusic.put( "House", "Music" );
-    metaDataMusic.put( "Rock", "Music" );
-    metaDataMusic.put( "Folk", "Music" );
+    metaDataMusic.put( "Classical", musicName );
+    metaDataMusic.put( "Jazz", musicName );
+    metaDataMusic.put( "Hip-hop", musicName );
+    metaDataMusic.put( "Reggae", musicName );
+    metaDataMusic.put( "Blues", musicName );
+    metaDataMusic.put( "Trance", musicName );
+    metaDataMusic.put( "House", musicName );
+    metaDataMusic.put( "Rock", musicName );
+    metaDataMusic.put( "Folk", musicName );
     backendlessGeoQuery = new BackendlessGeoQuery( metaDataMusic, maxPoints );
     backendlessGeoQuery.setPageSize( 50 );
     backendlessGeoQuery.setIncludeMeta( true );
@@ -174,15 +178,15 @@ public class MatchViewActivity extends Activity
     Backendless.Geo.relativeFind( backendlessGeoQuery, gotMusicCallback );
     //Hobbies
     Map<String, String> metaDataHobbies = new HashMap<String, String>();
-    metaDataHobbies.put( "Fishing", "Hobbies" );
-    metaDataHobbies.put( "Diving", "Hobbies" );
-    metaDataHobbies.put( "Rock climbing", "Hobbies" );
-    metaDataHobbies.put( "Hiking", "Hobbies" );
-    metaDataHobbies.put( "Reading", "Hobbies" );
-    metaDataHobbies.put( "Dancing", "Hobbies" );
-    metaDataHobbies.put( "Cooking", "Hobbies" );
-    metaDataHobbies.put( "Surfing", "Hobbies" );
-    metaDataHobbies.put( "Photography", "Hobbies" );
+    metaDataHobbies.put( "Fishing", hobbiesName );
+    metaDataHobbies.put( "Diving", hobbiesName );
+    metaDataHobbies.put( "Rock climbing", hobbiesName );
+    metaDataHobbies.put( "Hiking", hobbiesName );
+    metaDataHobbies.put( "Reading", hobbiesName );
+    metaDataHobbies.put( "Dancing", hobbiesName );
+    metaDataHobbies.put( "Cooking", hobbiesName );
+    metaDataHobbies.put( "Surfing", hobbiesName );
+    metaDataHobbies.put( "Photography", hobbiesName );
     backendlessGeoQuery = new BackendlessGeoQuery( metaDataHobbies, maxPoints );
     backendlessGeoQuery.setPageSize( 50 );
     backendlessGeoQuery.setIncludeMeta( true );
@@ -190,15 +194,15 @@ public class MatchViewActivity extends Activity
     Backendless.Geo.relativeFind( backendlessGeoQuery, gotHobbiesCallback );
     //Travel
     Map<String, String> metaDataTravel = new HashMap<String, String>();
-    metaDataTravel.put( "Cruise", "Travel" );
-    metaDataTravel.put( "B&B", "Travel" );
-    metaDataTravel.put( "Europe", "Travel" );
-    metaDataTravel.put( "Asia", "Travel" );
-    metaDataTravel.put( "Caribean", "Travel" );
-    metaDataTravel.put( "Mountains", "Travel" );
-    metaDataTravel.put( "Whale watching", "Travel" );
-    metaDataTravel.put( "Active travel", "Travel" );
-    metaDataTravel.put( "Passive travel", "Travel" );
+    metaDataTravel.put( "Cruise", travelName );
+    metaDataTravel.put( "B&B", travelName );
+    metaDataTravel.put( "Europe", travelName );
+    metaDataTravel.put( "Asia", travelName );
+    metaDataTravel.put( "Caribean", travelName );
+    metaDataTravel.put( "Mountains", travelName );
+    metaDataTravel.put( "Whale watching", travelName );
+    metaDataTravel.put( "Active travel", travelName );
+    metaDataTravel.put( "Passive travel", travelName );
     backendlessGeoQuery = new BackendlessGeoQuery( metaDataTravel, maxPoints );
     backendlessGeoQuery.setPageSize( 50 );
     backendlessGeoQuery.setIncludeMeta( true );
@@ -214,6 +218,7 @@ public class MatchViewActivity extends Activity
     {
       for( SearchMatchesResult geoPoint : response.getCurrentPage() )
       {
+
         if( geoPoint.getGeoPoint().equals( targetUserGeoPoint ) )
         {
           foodMatchCount = geoPoint.getMatches();
@@ -224,6 +229,7 @@ public class MatchViewActivity extends Activity
           food = true;
         }
       }
+
       if( music == true && food == true && hobbies == true && travel == true )
       {
         summMatch = (foodMatchCount + musicMatchCount + hobbiesMatchCount + travelMatchCount) / 4;
@@ -239,6 +245,7 @@ public class MatchViewActivity extends Activity
     {
       for( SearchMatchesResult geoPoint : response.getCurrentPage() )
       {
+
         if( geoPoint.getGeoPoint().equals( targetUserGeoPoint ) )
         {
           musicMatchCount = geoPoint.getMatches();
@@ -249,6 +256,7 @@ public class MatchViewActivity extends Activity
           music = true;
         }
       }
+
       if( music == true && food == true && hobbies == true && travel == true )
       {
         summMatch = (foodMatchCount + musicMatchCount + hobbiesMatchCount + travelMatchCount) / 4;
@@ -264,6 +272,7 @@ public class MatchViewActivity extends Activity
     {
       for( SearchMatchesResult geoPoint : response.getCurrentPage() )
       {
+
         if( geoPoint.getGeoPoint().equals( targetUserGeoPoint ) )
         {
           hobbiesMatchCount = geoPoint.getMatches();
@@ -274,6 +283,7 @@ public class MatchViewActivity extends Activity
           hobbies = true;
         }
       }
+
       if( music == true && food == true && hobbies == true && travel == true )
       {
         summMatch = (foodMatchCount + musicMatchCount + hobbiesMatchCount + travelMatchCount) / 4;
@@ -290,6 +300,7 @@ public class MatchViewActivity extends Activity
     {
       for( SearchMatchesResult geoPoint : response.getCurrentPage() )
       {
+
         if( geoPoint.getGeoPoint().equals( targetUserGeoPoint ) )
         {
           travelMatchCount = geoPoint.getMatches();
@@ -300,6 +311,7 @@ public class MatchViewActivity extends Activity
           travel = true;
         }
       }
+
       if( music == true && food == true && hobbies == true && travel == true )
       {
         summMatch = (foodMatchCount + musicMatchCount + hobbiesMatchCount + travelMatchCount) / 4;
@@ -324,9 +336,7 @@ public class MatchViewActivity extends Activity
         public void handleResponse( GeoPoint response )
         {
           if( targetUserDeviceRegistrationId == null || targetUserDeviceRegistrationId.equals( "" ) )
-          {
             return;
-          }
 
           DeliveryOptions deliveryOptions = new DeliveryOptions();
           deliveryOptions.setPushBroadcast( PushBroadcastMask.ALL );
@@ -337,12 +347,13 @@ public class MatchViewActivity extends Activity
             public void handleResponse( MessageStatus response )
             {
               progressDialog.cancel();
-
               String targetUserEmail = targetUserGeoPoint.getMetadata( BackendlessUser.EMAIL_KEY );
+
               if( currentUserGeoPoint.getMetadata().containsKey( targetUserEmail ) )
                 Lifecycle.runPingsActivity( MatchViewActivity.this, currentUserGeoPoint );
               else
                 Toast.makeText( MatchViewActivity.this, "Your ping was successfully sent.", Toast.LENGTH_LONG ).show();
+
               Lifecycle.runFindMatchesActivity( MatchViewActivity.this );
             }
           } );

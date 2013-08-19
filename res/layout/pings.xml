@@ -65,7 +65,7 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pingsContainer"/>
+                    android:id="@+id/pingedContainer"/>
             <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                        android:background="@drawable/background_calendar_top"/>
             <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
-                          android:layout_height="wrap_content" android:id="@+id/pingsContainer2"/>
+                          android:layout_height="wrap_content" android:id="@+id/werePingedContainer"/>
             <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                        android:background="@drawable/background_calendar_bottom"/>
             <TextView
@@ -91,7 +91,7 @@
             <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                        android:background="@drawable/background_calendar_top"/>
             <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
-                          android:layout_height="wrap_content" android:id="@+id/pingsContainer3"/>
+                          android:layout_height="wrap_content" android:id="@+id/callbackPingsContainer"/>
             <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                        android:background="@drawable/background_calendar_bottom"/>
         </LinearLayout>
