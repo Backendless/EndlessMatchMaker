@@ -149,7 +149,7 @@ public class RegisterActivity extends Activity
         return;
       }
 
-      if( genderRadio.getCheckedRadioButtonId() == 0 )
+      if( genderRadio.getCheckedRadioButtonId() == -1 )
       {
         Toast.makeText( getApplicationContext(), "Select your gender", Toast.LENGTH_SHORT ).show();
         return;

@@ -358,11 +358,8 @@ public class FindMatchesActivity extends Activity
     public void onClick( View view )
     {
       //Downloading pings for current user
-      Lifecycle.runPingsActivity( FindMatchesActivity.this, myLocation );
-
       BackendlessGeoQuery backendlessGeoQuery = new BackendlessGeoQuery();
       backendlessGeoQuery.setPageSize( 50 );
-      backendlessGeoQuery.putMetadata( Backendless.UserService.CurrentUser().getEmail(), Defaults.PING_TAG );
       Backendless.Geo.getPoints( backendlessGeoQuery, gotPingsCallback );
     }
   };
@@ -372,10 +369,24 @@ public class FindMatchesActivity extends Activity
     @Override
     public void handleResponse( BackendlessCollection<GeoPoint> response )
     {
-      if( response.getCurrentPage().size() == 0 )
+      boolean triger = false;
+
+      for( GeoPoint point : response.getCurrentPage() )
       {
-        Toast.makeText( FindMatchesActivity.this, "You have no any pings", Toast.LENGTH_LONG ).show();
+        String matchUserEmail = point.getMetadata( BackendlessUser.EMAIL_KEY );
+        String currentUserEmail = myLocation.getMetadata( BackendlessUser.EMAIL_KEY );
+        Map<String, String> currentData = myLocation.getMetadata();
+        Map<String, String> matchData = point.getMetadata();
+
+        if( (currentData.containsKey( matchUserEmail ) && matchData.containsKey( currentUserEmail )) || (matchData.containsKey( currentUserEmail ) && !currentData.containsKey( matchUserEmail )) || (currentData.containsKey( matchUserEmail ) && !matchData.containsKey( currentUserEmail )) )
+        {
+          triger = true;
+          Lifecycle.runPingsActivity( FindMatchesActivity.this, myLocation );
+        }
       }
+
+      if( triger == false )
+        Toast.makeText( FindMatchesActivity.this, "You have no pings", Toast.LENGTH_LONG ).show();
     }
   };
 

@@ -149,6 +149,7 @@ public class LoginActivity extends Activity
           Toast.makeText( LoginActivity.this, backendlessFault.getMessage(), Toast.LENGTH_LONG ).show();
         }
       } );
+
       finish();
     }
 

@@ -19,6 +19,7 @@
 package com.backendless.examples.endless.matchmaker.controllers;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.backendless.examples.endless.matchmaker.utils.Defaults;
 import com.backendless.examples.endless.matchmaker.utils.SimpleMath;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.examples.endless.matchmaker.views.UIFactory;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.QueryOptions;
@@ -50,6 +52,7 @@ import java.util.Map;
 public class ProfileActivity extends Activity
 {
   private Map<String, String> userPreferencesMap = new HashMap<String, String>();
+  private ProgressDialog progressDialog;
 
   @Override
   public void onCreate( Bundle savedInstanceState )
@@ -104,11 +107,13 @@ public class ProfileActivity extends Activity
       @Override
       public void onClick( View v )
       {
+        progressDialog = UIFactory.getDefaultProgressDialog( ProfileActivity.this );
         Backendless.UserService.logout( new AsyncCallback<Void>()
         {
           @Override
           public void handleResponse( Void aVoid )
           {
+            progressDialog.cancel();
             Lifecycle.runLoginActivity( ProfileActivity.this );
             finish();
           }
@@ -116,6 +121,7 @@ public class ProfileActivity extends Activity
           @Override
           public void handleFault( BackendlessFault backendlessFault )
           {
+            progressDialog.cancel();
             Toast.makeText( ProfileActivity.this, backendlessFault.getMessage(), Toast.LENGTH_LONG ).show();
           }
         } );
@@ -138,6 +144,7 @@ public class ProfileActivity extends Activity
     @Override
     public void onClick( View view )
     {
+      progressDialog = UIFactory.getDefaultProgressDialog( ProfileActivity.this );
       BackendlessDataQuery backendlessDataQuery = new BackendlessDataQuery( "email = '" + Backendless.UserService.CurrentUser().getEmail() + "'" );
       backendlessDataQuery.setQueryOptions( new QueryOptions( 50, 0 ) );
       Backendless.Persistence.of( UserPreferences.class ).find( backendlessDataQuery, new ResponseAsyncCallback<BackendlessCollection<UserPreferences>>( ProfileActivity.this )
@@ -151,9 +158,15 @@ public class ProfileActivity extends Activity
             userPreferencesMap.put( userPreferencese.getPreference(), userPreferencese.getTheme() );
 
           if( !userPreferencesMap.containsValue( "Food" ) || !userPreferencesMap.containsValue( "Music" ) || !userPreferencesMap.containsValue( "Hobbies" ) || !userPreferencesMap.containsValue( "Travel" ) )
+          {
+            progressDialog.cancel();
             Toast.makeText( ProfileActivity.this, "Set your preferences before search", Toast.LENGTH_LONG ).show();
+          }
           else
+          {
+            progressDialog.cancel();
             Lifecycle.runFindMatchesActivity( ProfileActivity.this );
+          }
         }
       } );
     }
